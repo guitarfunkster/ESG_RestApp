@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESG_RestApp.Migrations
 {
     [DbContext(typeof(ESG_RestAppContext))]
-    [Migration("20231112190043_Initial-Creation")]
-    partial class InitialCreation
+    [Migration("20231114142543_Initial-Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,8 @@ namespace ESG_RestApp.Migrations
 
             modelBuilder.Entity("ESG_RestApp.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("CustomerRef")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AddressLine1")
                         .HasColumnType("nvarchar(max)");
@@ -47,16 +44,13 @@ namespace ESG_RestApp.Migrations
                     b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CustomerRef")
-                        .HasColumnType("int");
-
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Town")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerRef");
 
                     b.ToTable("Customer");
                 });

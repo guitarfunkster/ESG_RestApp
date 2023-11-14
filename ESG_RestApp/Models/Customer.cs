@@ -1,4 +1,7 @@
-﻿namespace ESG_RestApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ESG_RestApp.Models
 {
     public class Customer
     {
@@ -8,8 +11,8 @@
             return $"Customer: ref: {customer.CustomerRef} name : {customer.CustomerName} Address Line 1:{customer.AddressLine1} ";
         }
 
-        public int Id { get; set; }
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CustomerRef { get; set; } 
         public string? CustomerName { get; set; } 
         public string? AddressLine1 { get; set; } 

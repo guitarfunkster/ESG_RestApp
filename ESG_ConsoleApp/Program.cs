@@ -96,16 +96,7 @@ namespace ESG_ConsoleApp
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                //Console.WriteLine("Get");
-                //HttpResponseMessage response = await client.GetAsync("https://localhost:7157/api/Customers/1");
-                //if (response.IsSuccessStatusCode)
-                //{
-                    //Sites sites = await response.Content.ReadAsAsync<Sites>();
-                    //Customer customer = await response.Content.ReadAsStringAsync<Customer>();
-                    //Console.WriteLine("Name: " + sites.name + "," + "Year: " + sites.yearInscribed);
-               // }
-
-                Console.WriteLine("Post");
+                Console.WriteLine("Posting Customers - Start");
 
                 foreach (var customer in customers)
                 {
@@ -116,10 +107,18 @@ namespace ESG_ConsoleApp
                     HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:7157/api/customers", customer);
                     if (response.IsSuccessStatusCode)
                     {
-                        //Uri siteUrl = response.Headers.Location;
-                        Console.WriteLine($"Posted customer successfully {Customer.Display(customer)}");
+                         Console.WriteLine($"Posted customer successfully {Customer.Display(customer)}");
+                    }
+                    else 
+                    {
+                        if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+                        {
+                            Console.WriteLine($"There was a conflict when posting the customer {Customer.Display(customer)}");
+                        }
                     }
                 }
+
+                Console.WriteLine("Posting Customers - Completed");
 
             }
         }
@@ -185,7 +184,7 @@ namespace ESG_ConsoleApp
                 foreach (var item in records)
                 {
                     //Ignore first line (header)
-                    if (line >0)
+                    if (line > 0)
                     {
                         var data = item.Split(',');
 

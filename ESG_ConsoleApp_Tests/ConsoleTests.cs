@@ -118,8 +118,7 @@ namespace ESG_ConsoleApp_Tests
         {
             //Arrange
             var testCustomers = new List<Customer>();
-            testCustomers.Add(new Customer(0, "10", "Bob Test", "12 Orchard Rise", "Marple Bridge", "Stockport", "Cheshire", "UK", "SK6 5BT"));
-            testCustomers.Add(new Customer(0, "11", "Bobby Test", "13 Village Rise", "Marple", "Stockport", "Cheshire", "UK", "SK6 5BL"));
+            testCustomers.Add(new Customer("1000", "Bob Test", "12 Orchard Rise", "Marple Bridge", "Stockport", "Cheshire", "UK", "SK6 5BT"));
 
             //Act
             await ESG_ConsoleApp.Program.PostAsync(testCustomers);

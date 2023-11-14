@@ -55,7 +55,7 @@ namespace ESG_RestApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != customer.Id)
+            if (id != customer.CustomerRef)
             {
                 return BadRequest();
             }
@@ -91,9 +91,23 @@ namespace ESG_RestApp.Controllers
               return Problem("Entity set 'ESG_RestAppContext.Customer'  is null.");
           }
             _context.Customer.Add(customer);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (CustomerExists(customer.CustomerRef))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            return CreatedAtAction("GetCustomer", new { id = customer.CustomerRef }, customer);
         }
 
         // DELETE: api/Customers/5
@@ -118,7 +132,8 @@ namespace ESG_RestApp.Controllers
 
         private bool CustomerExists(int id)
         {
-            return (_context.Customer?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Customer?.Any(e => e.CustomerRef == id)).GetValueOrDefault();
         }
     }
+
 }
